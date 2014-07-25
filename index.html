@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" ng-app="track"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>VidTrack</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link href="https://vjs.zencdn.net/4.6/video-js.css" rel="stylesheet">
+    <script src="js/modernizr-latest.js"></script>
+  </head>
+  <body ng-controller="UserController as userCtrl">
+    <div id="form-holder" ng-hide="userCtrl.show">
+      <form name="userForm" ng-submit="userForm.$valid && userCtrl.sendUser()" novalidate>
+        <!--  Live Preview -->
+        <div class="pull-right">
+          <h4>Preview User Information</h4>
+          <p>Click Skill: {{userCtrl.user.clickSkill}}</p>
+          <p>Name: {{userCtrl.user.name}}</p>
+          <p>Email: {{userCtrl.user.email}}</p>
+        </div>
+        <!--  User Form -->
+        <h4>Please Fill Form Below Completely</h4>
+        <fieldset class="form-group">
+          <select ng-model="userCtrl.user.clickSkill" class="form-control" ng-options="skill for skill in [5,4,3,2,1]"  title="Click Skill" required>
+            <option value="">Rate your click skill</option>
+          </select>
+        </fieldset>
+        <fieldset class="form-group">
+        <input ng-model="userCtrl.user.name" type="text" class="form-control" placeholder="Jon Doe" title="Review" required />
+        </fieldset>
+        <fieldset class="form-group">
+          <input ng-model="userCtrl.user.email" type="email" class="form-control" placeholder="JonDoe@example.org" title="Email" required/>
+        </fieldset>
+        <fieldset class="form-group">
+          <input type="submit" class="btn btn-primary" value="Submit" />
+        </fieldset>
+        <div>userForm is {{userForm.$valid}}</div>
+      </form>
+    </div>
+
+    <div id="video-holder" ng-show="userCtrl.show"
+                                         ng-controller="ClickController as clickCtrl">
+      <h2>VidTrack</h2>
+      <video id="example_video_1" class="video-js vjs-default-skin"
+        controls preload="auto" width="640" height="264"
+        poster="http://video-js.zencoder.com/oceans-clip.png"
+        data-setup='{"example_option":true}' ng-click="clickCtrl.sendCoords($event)">
+       <source src="http://video-js.zencoder.com/oceans-clip.mp4" type='video/mp4' />
+       <source src="http://video-js.zencoder.com/oceans-clip.webm" type='video/webm' />
+       <source src="http://video-js.zencoder.com/oceans-clip.ogv" type='video/ogg' />
+       <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+      </video>
+
+      <div>
+        <h3>X: {{clickCtrl.clickInfo.mouseX}}</h2>
+        <h3>Y: {{clickCtrl.clickInfo.mouseY}}</h3>
+        <h3>Time: {{clickCtrl.clickInfo.time}}</h3>
+        <h3>JSON:</h3>
+        <h3>{{clickCtrl.clickInfo.json}}</h3>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-2.1.1.min.js"><\/script>')</script>
+    <script src="https://vjs.zencdn.net/4.6/video.js"></script>
+    <script type="text/javascript" src="js/application.js"></script>
+  </body>
+</html>
